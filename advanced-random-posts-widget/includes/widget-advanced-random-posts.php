@@ -40,6 +40,7 @@ class arpw_widget extends WP_Widget {
 		$thumb        = $instance['thumb'];
 		$thumb_height = (int)( $instance['thumb_height'] );
 		$thumb_width  = (int)( $instance['thumb_width'] );
+		$type         = $instance['post_type'];
 		$cat          = $instance['cat'];
 		$tag          = $instance['tag'];
 		$date         = $instance['date'];
@@ -66,7 +67,7 @@ class arpw_widget extends WP_Widget {
 				'numberposts'  => $limit,
 				'category__in' => $cat,
 				'tag__in'      => $tag,
-				'post_type'    => 'post',
+				'post_type'    => $type,
 				'orderby'      => 'rand'
 			);
 
@@ -134,7 +135,8 @@ class arpw_widget extends WP_Widget {
 		$instance['length']       = (int)( $new_instance['length'] );
 		$instance['thumb']        = $new_instance['thumb'];
 		$instance['thumb_height'] = (int)( $new_instance['thumb_height'] );
-		$instance['thumb_width']  = (int)( $new_instance['thumb_width'] );
+		$instance['thumb_width']  = (int)( $new_instance['thumb_width'] );		
+		$instance['post_type'] = $new_instance['post_type'];
 		$instance['cat']          = $new_instance['cat'];
 		$instance['tag']          = $new_instance['tag'];
 		$instance['date']         = $new_instance['date'];
@@ -161,6 +163,7 @@ class arpw_widget extends WP_Widget {
             'thumb'        => true,
             'thumb_height' => 45,
             'thumb_width'  => 45,
+            'post_type' => 'post',
             'cat'          => '',
             'tag'          => '',
             'date'         => true,
@@ -178,6 +181,7 @@ class arpw_widget extends WP_Widget {
 		$thumb        = $instance['thumb'];
 		$thumb_height = (int)( $instance['thumb_height'] );
 		$thumb_width  = (int)( $instance['thumb_width'] );
+		$type		  = $instance['post_type'];
 		$cat          = $instance['cat'];
 		$tag          = $instance['tag'];
 		$date         = $instance['date'];
@@ -259,6 +263,23 @@ class arpw_widget extends WP_Widget {
 			</p>
 
 		<?php } ?>
+		
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'post_type' ) ); ?>"><?php _e( 'Limit to: ' , 'arpw' ); ?></label>
+			<select name="<?php echo esc_attr( $this->get_field_name( 'post_type' ) ); ?>">
+			<?php 
+				$post_types = get_post_types('','names'); 
+				foreach ($post_types as $post_type ) {
+					if ($post_type == $type) {
+						echo '<option value="' . $post_type . '" selected>' . $post_type .'</option>';
+					} else {
+						echo '<option value="' . $post_type . '">' . $post_type .'</option>';
+					}
+				} 
+			?>
+			</select>
+			<?php /* wp_dropdown_categories( array( 'name' => $this->get_field_name( 'post_type' ), 'show_option_all' => __( 'All posts' , 'arpw' ), 'hide_empty' => 1, 'hierarchical' => 1, 'selected' => $type ) ); */ ?>
+		</p>
 
 		<p>
 			<label class="input-checkbox" for="<?php echo esc_attr( $this->get_field_id( 'excerpt' ) ); ?>"><?php _e( 'Display excerpt?', 'arpw' ); ?></label>

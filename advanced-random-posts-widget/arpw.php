@@ -32,6 +32,8 @@ class ARP_Widget {
 
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_style' ) );
 
+		add_action( 'init', array( &$this, 'init' ) );
+
 	}
 
 	/**
@@ -75,6 +77,21 @@ class ARP_Widget {
 	 */
 	function admin_style() {
 		wp_enqueue_style( 'arpw-admin-style', ARPW_URI . 'includes/admin.css' );
+	}
+
+	/**
+	 * Register custom style for the widget.
+	 *
+	 * @since 1.0
+	 */
+	function init() {
+		
+		if( ! is_admin() ) {
+
+			wp_enqueue_style( 'arpw-style', ARPW_URI . 'arpw.css' );
+
+		}
+
 	}
 
 }
